@@ -4,13 +4,12 @@
  * Module dependencies.
  */
 
-const debug = require('debug')('koa-rate-limit')
-const ms = require('ms')
+const debug = require('debug')('koa-token-bucket')
 
 import TokenBucket from "./tokenBucket"
 
 /**
- * Expose `ratelimit()`.
+ * Expose `tokenBucket()`.
  *
  * Initialize ratelimit middleware with the given `opts`:
  *
