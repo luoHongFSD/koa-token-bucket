@@ -41,6 +41,11 @@ export type RateLimit = {
   namespace?: string;
 };
 
+type GetTokenOptions = {
+  tokens?:number,
+  lastRefillTime?:number,
+}
+
 module.exports = function ratelimit(options: RateLimit = {}) {
   const defaultOpts = {
     driver: "memory",
@@ -63,10 +68,10 @@ module.exports = function ratelimit(options: RateLimit = {}) {
     capacity = "X-RateLimit-Capacity",
   } = opts.headers;
 
-  const db = createStore(opts.driver,opts.redis,new Map())
+  const db = createStore(opts.driver, opts.redis, new Map());
 
-  function getTokens(options) {
-    const { tokens, lastRefillTime } = options;
+  function getTokens(options:GetTokenOptions = {}) {
+    const { tokens = opts.capacity, lastRefillTime = Date.now() } = options;
     const currentTime = Date.now();
     const timeElapsed = currentTime - lastRefillTime;
     const tokensToAdd = (timeElapsed * opts.rate) / 1000; // 生成令牌数量
@@ -92,11 +97,7 @@ module.exports = function ratelimit(options: RateLimit = {}) {
 
     if (id === false || whitelisted) return await next();
     let pass = false;
-    let token = await db.get(key);
-    if (!token) {
-      token = getTokens({ tokens: opts.capacity, lastRefillTime: Date.now() });
-    }
-
+    let token = getTokens(await db.get(key));
     if (token.tokens < 1) {
       pass = false;
     } else {
@@ -133,15 +134,19 @@ module.exports = function ratelimit(options: RateLimit = {}) {
   };
 };
 
-
-function createStore(driver,redis,map){
-  let db
+function createStore(driver, redis, map) {
+  let db;
   if (driver === "redis") {
     db = {
-     async get(key) {
-        return JSON.parse(await redis.get(key));
+      async get(key) {
+        const value = await redis.get(key)
+        if(value){
+          return JSON.parse(value)
+        }else{
+          return undefined
+        }
       },
-     async set(key, value) {
+      async set(key, value) {
         return redis.set(key, JSON.stringify(value));
       },
     };
@@ -157,5 +162,5 @@ function createStore(driver,redis,map){
       },
     };
   }
-  return db
+  return db;
 }
