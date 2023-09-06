@@ -1,6 +1,6 @@
 {
   "name": "koa-token-bucket",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -21,7 +21,8 @@
   },
   "dependencies": {
     "assert": "^2.0.0",
-    "debug": "^4.3.4"
+    "debug": "^4.3.4",
+    "redis": "^4.6.8"
   },
   "repository": {
     "type": "git",

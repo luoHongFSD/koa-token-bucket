@@ -17,13 +17,59 @@ $ yarn add koa-token-bucket
 
 ## Example
 
+### With a Redis driver
+
 ```js
 const Koa = require("koa");
+const Redis = require("ioredis");
 const app = new Koa();
-import tokenBucket from "koa-token-bucket";
+const tokenBucket = require("koa-token-bucket");
+//import tokenBucket from "koa-token-bucket";
 // apply rate limit
 app.use(
   tokenBucket({
+    driver: "redis",
+    redis: new Redis(),
+    capacity: 100, //总令牌桶数
+    rate: 10, //1秒生成多少个令牌
+    errorMessage: "Sometimes You Just Have to Slow Down.",
+    id: (ctx) => ctx.ip,
+    headers: {
+      rate: "X-RateLimit-Rate",
+      tokens: "X-RateLimit-Tokens",
+      capacity: "X-RateLimit-Capacity",
+    },
+    disableHeader: false,
+    whitelist: (ctx) => {
+      // some logic that returns a boolean
+    },
+    blacklist: (ctx) => {
+      // some logic that returns a boolean
+    },
+  })
+);
+
+// response middleware
+app.use(async (ctx) => {
+  ctx.body = "Stuff!";
+});
+
+// run server
+app.listen(3000, () => console.log("listening on port 3000"));
+```
+
+### With a Memory driver
+
+```js
+const Koa = require("koa");
+const Redis = require("ioredis");
+const app = new Koa();
+const tokenBucket = require("koa-token-bucket");
+//import tokenBucket from "koa-token-bucket";
+// apply rate limit
+app.use(
+  tokenBucket({
+    driver: "memory",
     capacity: 100, //总令牌桶数
     rate: 10, //1秒生成多少个令牌
     errorMessage: "Sometimes You Just Have to Slow Down.",
