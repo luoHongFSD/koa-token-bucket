@@ -1,8 +1,6 @@
 # koa-token-bucket
 
-[![NPM version][npm-image]][npm-url]
-[![build status][travis-image]][travis-url]
-[![node version][node-image]][node-url]
+
 
 Rate limiter middleware for koa.
 
