@@ -1,6 +1,6 @@
 {
-  "name": "koa-rate-limit",
-  "version": "1.0.0",
+  "name": "koa-token-bucket",
+  "version": "1.0.1",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -25,6 +25,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/luoHongFSD/koa-rate-limit"
+    "url": "https://github.com/luoHongFSD/koa-token-bucket"
   }
 }

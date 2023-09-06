@@ -1,4 +1,4 @@
-# koa-rate-limit
+# koa-token-bucket
 
 [![NPM version][npm-image]][npm-url]
 [![build status][travis-image]][travis-url]
@@ -10,9 +10,9 @@ Rate limiter middleware for koa.
 
 ```bash
 # npm
-$ npm install koa-rate-limit
+$ npm install koa-token-bucket
 # yarn
-$ yarn add koa-rate-limit
+$ yarn add koa-token-bucket
 ```
 
 ## Example
@@ -20,10 +20,10 @@ $ yarn add koa-rate-limit
 ```js
 const Koa = require("koa");
 const app = new Koa();
-import ratelimit from "koa-rate-limit";
+import tokenBucket from "koa-token-bucket";
 // apply rate limit
 app.use(
-  ratelimit({
+  tokenBucket({
     capacity: 100, //总令牌桶数
     rate: 10, //1秒生成多少个令牌
     errorMessage: "Sometimes You Just Have to Slow Down.",
