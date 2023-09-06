@@ -21,8 +21,7 @@
   },
   "dependencies": {
     "assert": "^2.0.0",
-    "debug": "^4.3.4",
-    "redis": "^4.6.8"
+    "debug": "^4.3.4"
   },
   "repository": {
     "type": "git",
