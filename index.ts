@@ -17,8 +17,8 @@ import TokenBucket from "./tokenBucket"
  * - `db` database connection  Map instance if memory
  * - `id` id to compare requests [ip]
  * - `headers` custom header names
- * - `tokens` remaining number of requests ['X-RateLimit-Tokens']
- * - `rate` reset timestamp ['X-RateLimit-Rate']
+ * - `tokens` tokens number of requests ['X-RateLimit-Tokens']
+ * - `rate` rate timestamp ['X-RateLimit-Rate']
  * - `capacity` capacity number of requests ['X-RateLimit-Capacity']
  * - `whitelist` whitelist function [false]
  * - `blacklist` blacklist function [false]
@@ -59,7 +59,7 @@ module.exports = function ratelimit (opts:RateLimit = {}) {
 
   const {
     rate = 'X-RateLimit-Rate',
-    tokens  = 'X-RateLimit-Tokens ',
+    tokens  = 'X-RateLimit-Tokens',
     capacity = 'X-RateLimit-Capacity'
   } = opts.headers
 
