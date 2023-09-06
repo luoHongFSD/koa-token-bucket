@@ -1,0 +1,31 @@
+{
+  "name": "koa-rate-limit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\""
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.5.9",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "assert": "^2.0.0",
+    "debug": "^4.3.4",
+    "redis": "^4.6.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/luoHongFSD/koa-rate-limit"
+  }
+}
