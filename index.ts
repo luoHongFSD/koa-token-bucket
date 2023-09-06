@@ -2,7 +2,6 @@
  * Module dependencies.
  */
 
-import { resolve } from "path";
 
 const debug = require("debug")("koa-token-bucket");
 
