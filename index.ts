@@ -2,9 +2,7 @@
  * Module dependencies.
  */
 
-
-const debug = require("debug")("koa-token-bucket");
-
+import { Redis } from  "ioredis"
 /**
  * Expose `tokenBucket()`.
  *
@@ -26,7 +24,7 @@ const debug = require("debug")("koa-token-bucket");
  */
 export type RateLimit = {
   driver?: "memory" | "redis";
-  redis?: any;
+  redis?: Redis;
   headers?: any;
   id?: (ctx) => string | boolean;
   whitelist?: (ctx) => boolean;
@@ -66,7 +64,9 @@ module.exports = function ratelimit(options: RateLimit = {}) {
     tokens = "X-RateLimit-Tokens",
     capacity = "X-RateLimit-Capacity",
   } = opts.headers;
-
+  if(opts.driver === 'redis'&&!(opts.redis instanceof Redis)){
+    throw new Error("Invalid options reids should be ioreids instance")
+  }
   const db = createStore(opts.driver, opts.redis, new Map());
 
   function getTokens(options:GetTokenOptions = {}) {
@@ -121,7 +121,7 @@ module.exports = function ratelimit(options: RateLimit = {}) {
       ctx.set(headers);
     }
 
-    debug("tokens %s/%s %s", tokens, opts.capacity, id);
+    
     if (pass) return await next();
 
     ctx.status = opts.status || 429;
